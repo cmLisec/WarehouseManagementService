@@ -1,0 +1,29 @@
+{
+  "profiles": {
+    "WarehouseManagementService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5107/swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "database.username": "username",
+        "database.password": "****",
+        "database.hostname": "hostname",
+        "database.databasename": "dbname"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5107"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_HTTP_PORTS": "8080"
+      },
+      "publishAllPorts": true,
+      "useSSL": false
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}
