@@ -27,6 +27,8 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Register services
 builder.Services.AddScoped<CustomersService>();
 builder.Services.AddScoped<CustomersRepository>();
+builder.Services.AddScoped<ProductsService>();
+builder.Services.AddScoped<ProductsRepository>();
 
 var app = builder.Build();
 

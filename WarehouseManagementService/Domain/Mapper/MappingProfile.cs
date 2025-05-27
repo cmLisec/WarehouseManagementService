@@ -10,6 +10,9 @@ namespace WarehouseManagementService.Domain.Mapper
         {
             CreateMap<Customer, CustomerDto>().ReverseMap();
             CreateMap<Customer, BaseCustomerDto>().ReverseMap();
+
+            CreateMap<Product, ProductDto>().ReverseMap();
+            CreateMap<Product, BaseProductDto>().ReverseMap();
         }
     }
 }
