@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using WarehouseManagementService.Domain;
+using WarehouseManagementService.Domain.Mapper;
+using WarehouseManagementService.Domain.Repositories;
+using WarehouseManagementService.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,11 @@ builder.Services.AddDbContext<WarehouseManagementDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Register services
+builder.Services.AddScoped<CustomersService>();
+builder.Services.AddScoped<CustomersRepository>();
 
 var app = builder.Build();
 

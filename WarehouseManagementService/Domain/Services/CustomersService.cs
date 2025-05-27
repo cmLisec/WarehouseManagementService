@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using System.Net;
 using WarehouseManagementService.Domain.Dtos;
 using WarehouseManagementService.Domain.Models;
 using WarehouseManagementService.Domain.Repositories;
+using WarehouseManagementService.Domain.Utilities;
 
 namespace WarehouseManagementService.Domain.Services
 {
@@ -16,45 +18,56 @@ namespace WarehouseManagementService.Domain.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CustomerDto>> GetAllAsync()
+        public async Task<CommonResponseType<List<CustomerDto>>> GetAllAsync()
         {
             var customers = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<CustomerDto>>(customers);
+            if (customers.Count == 0)
+                return new CommonResponseType<List<CustomerDto>>("No customers available", StatusCodes.Status204NoContent);
+
+            return new CommonResponseType<List<CustomerDto>>(_mapper.Map<List<CustomerDto>>(customers), StatusCodes.Status200OK);
         }
 
-        public async Task<CustomerDto?> GetByIdAsync(int id)
+        public async Task<CommonResponseType<CustomerDto>> GetByIdAsync(int id)
         {
             var customer = await _repo.GetByIdAsync(id);
-            return customer == null ? null : _mapper.Map<CustomerDto>(customer);
+            if (customer == null)
+                return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
+
+            return  new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customer), StatusCodes.Status200OK);
         }
 
-        public async Task<CustomerDto> CreateAsync(BaseCustomerDto dto)
+        public async Task<CommonResponseType<CustomerDto>> CreateAsync(BaseCustomerDto dto)
         {
             var customer = _mapper.Map<Customer>(dto);
-            await _repo.AddAsync(customer);
+            var customerAdded = await _repo.AddAsync(customer);
             await _repo.SaveChangesAsync();
-            return _mapper.Map<CustomerDto>(customer);
+
+            return new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customerAdded), StatusCodes.Status201Created);
         }
 
-        public async Task UpdateAsync(int id, BaseCustomerDto dto)
+        public async Task<CommonResponseType<CustomerDto>> UpdateAsync(int id, BaseCustomerDto dto)
         {
             var customer = await _repo.GetByIdAsync(id);
             if (customer == null)
-                throw new KeyNotFoundException($"Customer with ID {id} not found.");
+                return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
 
-            _mapper.Map(dto, customer);
-            await _repo.UpdateAsync(customer);
+            var customerToUpdate = _mapper.Map<Customer>(dto);
+            customerToUpdate.CustomerId = id;
+
+            await _repo.UpdateAsync(customerToUpdate);
             await _repo.SaveChangesAsync();
+            return new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customerToUpdate), StatusCodes.Status200OK);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<CommonResponseType<CustomerDto>> DeleteAsync(int id)
         {
             var customer = await _repo.GetByIdAsync(id);
             if (customer == null)
-                throw new KeyNotFoundException($"Customer with ID {id} not found.");
+                return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
 
             await _repo.DeleteAsync(customer);
             await _repo.SaveChangesAsync();
+            return new CommonResponseType<CustomerDto>();
         }
     }
 }
