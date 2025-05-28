@@ -1,103 +1,63 @@
-Project Overview
-This is a Warehouse Management Service built as an ASP.NET Core Web API using Microsoft.EntityFrameworkCore for data access. The service manages customers, products, purchase orders, and sales orders for a warehouse operation.
+# Warehouse Management Service API
 
-Project Structure
-(Structure remains the same as previously described)
+![.NET Core](https://img.shields.io/badge/.NET-6.0-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Configuration (Updated)
-The application is configured through launchSettings.json with the following settings:
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [API Documentation](#api-documentation)
+- [Testing](#testing)
+- [License](#license)
 
-Development Profile
-Port: 5107
+## Project Overview
+A robust Warehouse Management System built with ASP.NET Core Web API and Entity Framework Core. Manages inventory, customers, purchase orders, and sales orders with full CRUD operations.
 
-Swagger URL: http://localhost:5107/swagger/index.html
+## Architecture
+The application follows Clean Architecture principles:
 
-Environment Variables:
+## Project Structure
+WarehouseManagementService/
+├── Controllers/
+├── Domain/
+│ ├── Dtos/ # Data Transfer Objects
+│ ├── Mapper/ # AutoMapper Profiles
+│ ├── Models/ # Entity Models
+│ ├── Repositories/ # Data Access
+│ ├── Services/ # Business Logic
+│ └── Utilities/ # Helpers and Extensions
+├── Migrations/ # EF Core Migrations
+└── WarehouseManagementTest # Unit Tests
 
-ASPNETCORE_ENVIRONMENT: "Development"
+## Prerequisites
+- [.NET 6 SDK](https://dotnet.microsoft.com/download)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or Azure SQL
+- [Docker](https://www.docker.com/) (optional)
 
-database.username: Your database username
+## Configuration
 
-database.password: Your database password
+1. Set up `launchSettings.json`:
 
-database.hostname: Your database server hostname
-
-database.databasename: Your database name
-
-Docker Profile
-Port: 8080
-
-SSL: Disabled
-
-HTTP Ports: 8080
-
-How to Run the Application (Updated)
-Development Mode
-Ensure your launchSettings.json has the correct database credentials
-
-Run the application using:
-
-bash
-dotnet run
-or through your IDE using the "WarehouseManagementService" profile
-
-The application will:
-
-Start on http://localhost:5107
-
-Automatically open Swagger UI in your browser
-
-Apply any pending database migrations
-
-Docker Deployment
-Build the Docker image:
-
-bash
-docker build -t warehouse-management .
-Run the container with your environment variables:
-
-bash
-docker run -p 8080:8080 \
-  -e ASPNETCORE_ENVIRONMENT=Development \
-  -e database__username=your_username \
-  -e database__password=your_password \
-  -e database__hostname=your_host \
-  -e database__databasename=your_db \
-  warehouse-management
-Access the API at http://localhost:8080
-
-Environment Configuration
-For production deployments, you can override the launch settings by:
-
-Setting environment variables directly on the host
-
-Using a production appsettings.json file
-
-Using secrets manager for sensitive data
-
-Important Notes
-The development profile uses HTTP (not HTTPS) for easier debugging
-
-Database credentials in launchSettings.json are only for development
-
-For production, use proper secret management
-
-The Docker profile runs on port 8080 by default
-
-API Documentation
-The Swagger UI is automatically available at:
-
-Development: http://localhost:5107/swagger/index.html
-
-Docker: http://localhost:8080/swagger/index.html
-
-Troubleshooting
-If you encounter connection issues:
-
-Verify your database credentials in launchSettings.json
-
-Check that your database server is accessible
-
-Ensure the database exists and the user has proper permissions
-
-For Docker, verify all environment variables are correctly set
+```json
+{
+  "profiles": {
+    "WarehouseManagementService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_SERVER": "localhost",
+        "DB_NAME": "WarehouseDB",
+        "DB_USER": "sa",
+        "DB_PASSWORD": "your_password"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    }
+  }
+}
