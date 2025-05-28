@@ -4,17 +4,28 @@ using WarehouseManagementService.Domain.Services;
 
 namespace WarehouseManagementService.Controllers
 {
+    /// <summary>
+    /// Controller responsible for managing customer-related operations.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : CommonController
     {
         private readonly CustomersService _customerService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomersController"/> class.
+        /// </summary>
+        /// <param name="customerService">Service for customer operations.</param>
         public CustomersController(CustomersService customerService)
         {
             _customerService = customerService;
         }
 
+        /// <summary>
+        /// Retrieves a list of all customers.
+        /// </summary>
+        /// <returns>A list of customer DTOs.</returns>
         [HttpGet]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -25,6 +36,11 @@ namespace WarehouseManagementService.Controllers
             return ReplyCommonResponse(customers);
         }
 
+        /// <summary>
+        /// Retrieves a specific customer by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the customer to retrieve.</param>
+        /// <returns>A customer DTO if found; otherwise, NotFound.</returns>
         [HttpGet("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -35,6 +51,11 @@ namespace WarehouseManagementService.Controllers
             return ReplyCommonResponse(customer);
         }
 
+        /// <summary>
+        /// Creates a new customer.
+        /// </summary>
+        /// <param name="customerDto">The customer data to create.</param>
+        /// <returns>The created customer DTO.</returns>
         [HttpPost]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -45,6 +66,12 @@ namespace WarehouseManagementService.Controllers
             return ReplyCommonResponse(createdCustomer);
         }
 
+        /// <summary>
+        /// Updates an existing customer's information.
+        /// </summary>
+        /// <param name="id">The ID of the customer to update.</param>
+        /// <param name="customerDto">The updated customer data.</param>
+        /// <returns>The updated customer DTO.</returns>
         [HttpPut("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -55,6 +82,11 @@ namespace WarehouseManagementService.Controllers
             return ReplyCommonResponse(updatedCustomer);
         }
 
+        /// <summary>
+        /// Deletes a customer by ID.
+        /// </summary>
+        /// <param name="id">The ID of the customer to delete.</param>
+        /// <returns>The deleted customer DTO if successful.</returns>
         [HttpDelete("{id}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
