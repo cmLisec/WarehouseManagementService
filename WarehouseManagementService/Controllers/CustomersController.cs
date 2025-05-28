@@ -16,20 +16,29 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetCustomerDto>>> GetAllCustomers()
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<List<GetCustomerDto>>> GetAllCustomersAsync()
         {
             var customers = await _customerService.GetAllCustomersAsync();
             return ReplyCommonResponse(customers);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetCustomerDto>> GetCustomer(int id)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GetCustomerDto>> GetCustomerByIdAsync(int id)
         {
             var customer = await _customerService.GetCustomerByIdAsync(id);
             return ReplyCommonResponse(customer);
         }
 
         [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult<GetCustomerDto>> CreateCustomer([FromBody] CustomerDto customerDto)
         {
             var createdCustomer = await _customerService.CreateCustomerAsync(customerDto);
@@ -37,6 +46,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetCustomerDto>> UpdateCustomer(int id, [FromBody] CustomerDto customerDto)
         {
             var updatedCustomer = await _customerService.UpdateCustomerAsync(id, customerDto);
@@ -44,6 +56,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetCustomerDto>> DeleteCustomer(int id)
         {
             var deleted = await _customerService.DeleteCustomerAsync(id);

@@ -16,6 +16,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<List<GetPurchaseOrderDto>>> GetAllPurchaseOrdersAsync()
         {
             var PurchaseOrders = await _purchaseOrdersService.GetAllPurchaseOrdersAsync();
@@ -23,6 +26,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetPurchaseOrderDto>> GetPurchaseOrderByIdAsync(int id)
         {
             var PurchaseOrder = await _purchaseOrdersService.GetPurchaseOrderByIdAsync(id);
@@ -30,6 +36,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult<GetPurchaseOrderDto>> CreatePurchaseOrderAsync([FromBody] PurchaseOrderDto purchaseOrderDto)
         {
             var createdPurchaseOrder = await _purchaseOrdersService.CreatePurchaseOrderAsync(purchaseOrderDto);
@@ -37,6 +46,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetPurchaseOrderDto>> UpdatePurchaseOrderAsync(int id, [FromBody] PurchaseOrderDto purchaseOrderDto)
         {
             var updatedPurchaseOrder = await _purchaseOrdersService.UpdatePurchaseOrderAsync(id, purchaseOrderDto);
@@ -44,6 +56,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PurchaseOrderDto>> DeletePurchaseOrderAsync(int id)
         {
             var deleted = await _purchaseOrdersService.DeletePurchaseOrderAsync(id);

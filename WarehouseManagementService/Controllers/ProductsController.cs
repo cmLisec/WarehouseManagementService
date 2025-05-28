@@ -16,6 +16,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<List<GetProductDto>>> GetAllProductsAsync()
         {
             var products = await _productsService.GetAllProductsAsync();
@@ -23,6 +26,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetProductDto>> GetProductByIdAsync(int id)
         {
             var product = await _productsService.GetProductByIdAsync(id);
@@ -30,6 +36,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpPost]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status424FailedDependency)]
         public async Task<ActionResult<GetProductDto>> CreateProductAsync([FromBody] ProductDto ProductDto)
         {
             var createdProduct = await _productsService.CreateProductAsync(ProductDto);
@@ -37,6 +46,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpPut("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetProductDto>> UpdateProductAsync(int id, [FromBody] ProductDto ProductDto)
         {
             var updatedProduct = await _productsService.UpdateProductAsync(id, ProductDto);
@@ -44,6 +56,9 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<GetProductDto>> DeleteProductAsync(int id)
         {
             var deleted = await _productsService.DeleteProductAsync(id);

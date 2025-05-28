@@ -26,7 +26,7 @@ namespace WarehouseManagementService.Tests.Controllers
         [Test]
         public async Task GetAllCustomers_ReturnsEmptyList_WhenNoCustomersExist()
         {
-            var result = await _controller.GetAllCustomers();
+            var result = await _controller.GetAllCustomersAsync();
 
             Assert.That(result.Result, Is.TypeOf<NoContentResult>());
             var objectResult = result.Result as NoContentResult;
@@ -59,7 +59,7 @@ namespace WarehouseManagementService.Tests.Controllers
             await _context.Customers.AddAsync(customer);
             await _context.SaveChangesAsync();
 
-            var result = await _controller.GetCustomer(customer.CustomerId);
+            var result = await _controller.GetCustomerByIdAsync(customer.CustomerId);
 
             Assert.That(result.Result, Is.TypeOf<OkObjectResult>());
             var objectResult = result.Result as OkObjectResult;
