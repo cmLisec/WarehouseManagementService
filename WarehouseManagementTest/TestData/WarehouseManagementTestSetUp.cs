@@ -22,26 +22,26 @@ namespace WarehouseManagementTest.TestData
 
             var config = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<Customer, GetCustomerDto>().ReverseMap();
                 cfg.CreateMap<Customer, CustomerDto>().ReverseMap();
-                cfg.CreateMap<Customer, BaseCustomerDto>().ReverseMap();
 
+                cfg.CreateMap<Product, GetProductDto>().ReverseMap();
                 cfg.CreateMap<Product, ProductDto>().ReverseMap();
-                cfg.CreateMap<Product, BaseProductDto>().ReverseMap();
 
-                cfg.CreateMap<PurchaseOrder, PurchaseOrderReadDto>().ReverseMap();
+                cfg.CreateMap<PurchaseOrder, GetPurchaseOrderDto>().ReverseMap();
                 cfg.CreateMap<PurchaseOrderDto, PurchaseOrder>()
                     .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)).ReverseMap()
                     .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
 
-                cfg.CreateMap<PurchaseOrderItem, PurchaseOrderItemReadDto>().ReverseMap();
+                cfg.CreateMap<PurchaseOrderItem, GetPurchaseOrderItemDto>().ReverseMap();
                 cfg.CreateMap<PurchaseOrderItemDto, PurchaseOrderItem>().ReverseMap();
 
-                cfg.CreateMap<SalesOrder, SalesOrderReadDto>().ReverseMap();
+                cfg.CreateMap<SalesOrder, GetSalesOrderDto>().ReverseMap();
                 cfg.CreateMap<SalesOrderDto, SalesOrder>()
                     .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)).ReverseMap()
                     .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
 
-                cfg.CreateMap<SalesOrderItem, SalesOrderItemReadDto>().ReverseMap();
+                cfg.CreateMap<SalesOrderItem, GetSalesOrderItemDto>().ReverseMap();
                 cfg.CreateMap<SalesOrderItemDto, SalesOrderItem>().ReverseMap();
             });
 

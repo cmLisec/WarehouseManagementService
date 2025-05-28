@@ -36,7 +36,7 @@ namespace WarehouseManagementService.Tests.Controllers
         [Test]
         public async Task CreateCustomer_ReturnsCreatedCustomer()
         {
-            var dto = new BaseCustomerDto
+            var dto = new CustomerDto
             {
                 Name = "Test Customer",
                 Address = "123 Street"
@@ -48,7 +48,7 @@ namespace WarehouseManagementService.Tests.Controllers
             var objectResult = result.Result as ObjectResult;
             Assert.That(objectResult.StatusCode, Is.EqualTo(201));
 
-            var customer = objectResult.Value as CustomerDto;
+            var customer = objectResult.Value as GetCustomerDto;
             Assert.That(customer.Name, Is.EqualTo(dto.Name));
         }
 
@@ -73,7 +73,7 @@ namespace WarehouseManagementService.Tests.Controllers
             await _context.Customers.AddAsync(customer);
             await _context.SaveChangesAsync();
 
-            var updatedDto = new BaseCustomerDto
+            var updatedDto = new CustomerDto
             {
                 Name = "New Name",
                 Address = "New Address"
@@ -86,7 +86,7 @@ namespace WarehouseManagementService.Tests.Controllers
             var objectResult = result.Result as OkObjectResult;
             Assert.That(objectResult.StatusCode, Is.EqualTo(200));
 
-            var updatedCustomer = objectResult.Value as CustomerDto;
+            var updatedCustomer = objectResult.Value as GetCustomerDto;
             Assert.That(updatedCustomer.Name, Is.EqualTo(updatedDto.Name));
         }
 

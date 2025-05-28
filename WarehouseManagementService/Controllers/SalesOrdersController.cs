@@ -16,28 +16,28 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<SalesOrderReadDto>>> GetAllSalesOrders()
+        public async Task<ActionResult<List<GetSalesOrderDto>>> GetAllSalesOrders()
         {
             var SalesOrders = await _SalesOrdersService.GetAllAsync();
             return ReplyCommonResponse(SalesOrders);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SalesOrderReadDto>> GetSalesOrder(int id)
+        public async Task<ActionResult<GetSalesOrderDto>> GetSalesOrder(int id)
         {
             var SalesOrder = await _SalesOrdersService.GetByIdAsync(id);
             return ReplyCommonResponse(SalesOrder);
         }
 
         [HttpPost]
-        public async Task<ActionResult<SalesOrderReadDto>> CreateSalesOrder([FromBody] SalesOrderDto SalesOrderDto)
+        public async Task<ActionResult<GetSalesOrderDto>> CreateSalesOrder([FromBody] SalesOrderDto SalesOrderDto)
         {
             var createdSalesOrder = await _SalesOrdersService.CreateAsync(SalesOrderDto);
             return ReplyCommonResponse(createdSalesOrder);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<SalesOrderReadDto>> UpdateSalesOrder(int id, [FromBody] SalesOrderDto SalesOrderDto)
+        public async Task<ActionResult<GetSalesOrderDto>> UpdateSalesOrder(int id, [FromBody] SalesOrderDto SalesOrderDto)
         {
             var updatedSalesOrder = await _SalesOrdersService.UpdateAsync(id, SalesOrderDto);
             return ReplyCommonResponse(updatedSalesOrder);

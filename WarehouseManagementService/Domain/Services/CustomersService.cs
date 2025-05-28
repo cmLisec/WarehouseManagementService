@@ -17,56 +17,56 @@ namespace WarehouseManagementService.Domain.Services
             _mapper = mapper;
         }
 
-        public async Task<CommonResponseType<List<CustomerDto>>> GetAllAsync()
+        public async Task<CommonResponseType<List<GetCustomerDto>>> GetAllAsync()
         {
             var customers = await _repo.GetAllAsync();
             if (customers.Count == 0)
-                return new CommonResponseType<List<CustomerDto>>("No customers available", StatusCodes.Status204NoContent);
+                return new CommonResponseType<List<GetCustomerDto>>("No customers available", StatusCodes.Status204NoContent);
 
-            return new CommonResponseType<List<CustomerDto>>(_mapper.Map<List<CustomerDto>>(customers), StatusCodes.Status200OK);
+            return new CommonResponseType<List<GetCustomerDto>>(_mapper.Map<List<GetCustomerDto>>(customers), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<CustomerDto>> GetByIdAsync(int id)
+        public async Task<CommonResponseType<GetCustomerDto>> GetByIdAsync(int id)
         {
             var customer = await _repo.GetByIdAsync(id);
             if (customer == null)
-                return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetCustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
 
-            return new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customer), StatusCodes.Status200OK);
+            return new CommonResponseType<GetCustomerDto>(_mapper.Map<GetCustomerDto>(customer), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<CustomerDto>> CreateAsync(BaseCustomerDto dto)
+        public async Task<CommonResponseType<GetCustomerDto>> CreateAsync(CustomerDto dto)
         {
             var customer = _mapper.Map<Customer>(dto);
             var customerAdded = await _repo.AddAsync(customer);
             await _repo.SaveChangesAsync();
 
-            return new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customerAdded), StatusCodes.Status201Created);
+            return new CommonResponseType<GetCustomerDto>(_mapper.Map<GetCustomerDto>(customerAdded), StatusCodes.Status201Created);
         }
 
-        public async Task<CommonResponseType<CustomerDto>> UpdateAsync(int id, BaseCustomerDto dto)
+        public async Task<CommonResponseType<GetCustomerDto>> UpdateAsync(int id, CustomerDto dto)
         {
             var customer = await _repo.GetByIdAsync(id);
             if (customer == null)
-                return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetCustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
 
             var customerToUpdate = _mapper.Map<Customer>(dto);
             customerToUpdate.CustomerId = id;
 
             await _repo.UpdateAsync(customerToUpdate);
             await _repo.SaveChangesAsync();
-            return new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customerToUpdate), StatusCodes.Status200OK);
+            return new CommonResponseType<GetCustomerDto>(_mapper.Map<GetCustomerDto>(customerToUpdate), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<CustomerDto>> DeleteAsync(int id)
+        public async Task<CommonResponseType<GetCustomerDto>> DeleteAsync(int id)
         {
             var customer = await _repo.GetByIdAsync(id);
             if (customer == null)
-                return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetCustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
 
             await _repo.DeleteAsync(customer);
             await _repo.SaveChangesAsync();
-            return new CommonResponseType<CustomerDto>();
+            return new CommonResponseType<GetCustomerDto>();
         }
     }
 }

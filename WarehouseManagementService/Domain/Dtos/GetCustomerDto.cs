@@ -1,10 +1,10 @@
 ﻿namespace WarehouseManagementService.Domain.Dtos
 {
-    public class CustomerDto : BaseCustomerDto
+    public class GetCustomerDto : CustomerDto
     {
         public int CustomerId { get; set; }
     }
-    public class BaseCustomerDto
+    public class CustomerDto
     {
         public string Name { get; set; }
         public string Address { get; set; }

@@ -16,28 +16,28 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PurchaseOrderReadDto>>> GetAllPurchaseOrders()
+        public async Task<ActionResult<List<GetPurchaseOrderDto>>> GetAllPurchaseOrders()
         {
             var PurchaseOrders = await _purchaseOrdersService.GetAllAsync();
             return ReplyCommonResponse(PurchaseOrders);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PurchaseOrderReadDto>> GetPurchaseOrder(int id)
+        public async Task<ActionResult<GetPurchaseOrderDto>> GetPurchaseOrder(int id)
         {
             var PurchaseOrder = await _purchaseOrdersService.GetByIdAsync(id);
             return ReplyCommonResponse(PurchaseOrder);
         }
 
         [HttpPost]
-        public async Task<ActionResult<PurchaseOrderReadDto>> CreatePurchaseOrder([FromBody] PurchaseOrderDto purchaseOrderDto)
+        public async Task<ActionResult<GetPurchaseOrderDto>> CreatePurchaseOrder([FromBody] PurchaseOrderDto purchaseOrderDto)
         {
             var createdPurchaseOrder = await _purchaseOrdersService.CreateAsync(purchaseOrderDto);
             return ReplyCommonResponse(createdPurchaseOrder);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PurchaseOrderReadDto>> UpdatePurchaseOrder(int id, [FromBody] PurchaseOrderDto purchaseOrderDto)
+        public async Task<ActionResult<GetPurchaseOrderDto>> UpdatePurchaseOrder(int id, [FromBody] PurchaseOrderDto purchaseOrderDto)
         {
             var updatedPurchaseOrder = await _purchaseOrdersService.UpdateAsync(id, purchaseOrderDto);
             return ReplyCommonResponse(updatedPurchaseOrder);

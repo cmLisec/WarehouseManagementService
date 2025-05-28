@@ -16,22 +16,22 @@ namespace WarehouseManagementService.Domain.Services
             _repo = repo;
             _mapper = mapper;
         }
-        public async Task<CommonResponseType<List<SalesOrderReadDto>>> GetAllAsync()
+        public async Task<CommonResponseType<List<GetSalesOrderDto>>> GetAllAsync()
         {
             var SalesOrders = await _repo.GetAllAsync();
             if (SalesOrders.Count == 0)
-                return new CommonResponseType<List<SalesOrderReadDto>>("No Sales orders available", StatusCodes.Status204NoContent);
+                return new CommonResponseType<List<GetSalesOrderDto>>("No Sales orders available", StatusCodes.Status204NoContent);
 
-            return new CommonResponseType<List<SalesOrderReadDto>>(_mapper.Map<List<SalesOrderReadDto>>(SalesOrders), StatusCodes.Status200OK);
+            return new CommonResponseType<List<GetSalesOrderDto>>(_mapper.Map<List<GetSalesOrderDto>>(SalesOrders), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<SalesOrderReadDto>> GetByIdAsync(int id)
+        public async Task<CommonResponseType<GetSalesOrderDto>> GetByIdAsync(int id)
         {
             var SalesOrder = await _repo.GetByIdAsync(id);
             if (SalesOrder == null)
-                return new CommonResponseType<SalesOrderReadDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetSalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
 
-            return new CommonResponseType<SalesOrderReadDto>(_mapper.Map<SalesOrderReadDto>(SalesOrder), StatusCodes.Status200OK);
+            return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(SalesOrder), StatusCodes.Status200OK);
         }
 
         public CommonResponseType<SalesOrderDto> Validate(SalesOrderDto dto)
@@ -48,23 +48,23 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<SalesOrderDto>();
         }
 
-        public async Task<CommonResponseType<SalesOrderReadDto>> CreateAsync(SalesOrderDto dto)
+        public async Task<CommonResponseType<GetSalesOrderDto>> CreateAsync(SalesOrderDto dto)
         {
             var validateResponse = Validate(dto);
             if (!validateResponse.IsSuccessStatusCode())
-                return new CommonResponseType<SalesOrderReadDto>(validateResponse.Message, validateResponse.StatusCode);
+                return new CommonResponseType<GetSalesOrderDto>(validateResponse.Message, validateResponse.StatusCode);
 
             var order = _mapper.Map<SalesOrder>(dto);
             _repo.Add(order);
             await _repo.SaveAsync();
-            return new CommonResponseType<SalesOrderReadDto>(_mapper.Map<SalesOrderReadDto>(order), StatusCodes.Status201Created);
+            return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(order), StatusCodes.Status201Created);
         }
 
-        public async Task<CommonResponseType<SalesOrderReadDto>> UpdateAsync(int id, SalesOrderDto dto)
+        public async Task<CommonResponseType<GetSalesOrderDto>> UpdateAsync(int id, SalesOrderDto dto)
         {
             var existing = await _repo.GetByIdAsync(id);
             if (existing == null)
-                return new CommonResponseType<SalesOrderReadDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetSalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
 
             // Clear existing items and add new
             existing.Items.Clear();
@@ -78,7 +78,7 @@ namespace WarehouseManagementService.Domain.Services
             existing.CustomerId = dto.CustomerId;
 
             await _repo.SaveAsync();
-            return new CommonResponseType<SalesOrderReadDto>(_mapper.Map<SalesOrderReadDto>(existing), StatusCodes.Status200OK);
+            return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(existing), StatusCodes.Status200OK);
         }
 
         public async Task<CommonResponseType<SalesOrderDto>> DeleteAsync(int id)

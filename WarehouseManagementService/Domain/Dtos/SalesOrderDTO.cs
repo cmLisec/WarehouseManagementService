@@ -8,12 +8,12 @@
         public List<SalesOrderItemDto> Items { get; set; }
     }
 
-    public class SalesOrderReadDto : SalesOrderDto
+    public class GetSalesOrderDto : SalesOrderDto
     {
         public int OrderId { get; set; }
     }
 
-    public class SalesOrderItemReadDto : SalesOrderItemDto
+    public class GetSalesOrderItemDto : SalesOrderItemDto
     {
         public int Id { get; set; }
         public int SalesOrderId { get; set; }

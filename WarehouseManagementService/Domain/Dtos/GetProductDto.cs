@@ -2,11 +2,11 @@
 
 namespace WarehouseManagementService.Domain.Dtos
 {
-    public class ProductDto : BaseProductDto
+    public class GetProductDto : ProductDto
     {
         public int ProductId { get; set; }
     }
-    public class BaseProductDto
+    public class ProductDto
     {
         [Required]
         public string ProductCode { get; set; }

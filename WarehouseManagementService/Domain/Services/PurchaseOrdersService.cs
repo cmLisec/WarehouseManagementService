@@ -16,22 +16,22 @@ namespace WarehouseManagementService.Domain.Services
             _repo = repo;
             _mapper = mapper;
         }
-        public async Task<CommonResponseType<List<PurchaseOrderReadDto>>> GetAllAsync()
+        public async Task<CommonResponseType<List<GetPurchaseOrderDto>>> GetAllAsync()
         {
             var purchaseOrders = await _repo.GetAllAsync();
             if (purchaseOrders.Count == 0)
-                return new CommonResponseType<List<PurchaseOrderReadDto>>("No purchase orders available", StatusCodes.Status204NoContent);
+                return new CommonResponseType<List<GetPurchaseOrderDto>>("No purchase orders available", StatusCodes.Status204NoContent);
 
-            return new CommonResponseType<List<PurchaseOrderReadDto>>(_mapper.Map<List<PurchaseOrderReadDto>>(purchaseOrders), StatusCodes.Status200OK);
+            return new CommonResponseType<List<GetPurchaseOrderDto>>(_mapper.Map<List<GetPurchaseOrderDto>>(purchaseOrders), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<PurchaseOrderReadDto>> GetByIdAsync(int id)
+        public async Task<CommonResponseType<GetPurchaseOrderDto>> GetByIdAsync(int id)
         {
             var purchaseOrder = await _repo.GetByIdAsync(id);
             if (purchaseOrder == null)
-                return new CommonResponseType<PurchaseOrderReadDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetPurchaseOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
 
-            return new CommonResponseType<PurchaseOrderReadDto>(_mapper.Map<PurchaseOrderReadDto>(purchaseOrder), StatusCodes.Status200OK);
+            return new CommonResponseType<GetPurchaseOrderDto>(_mapper.Map<GetPurchaseOrderDto>(purchaseOrder), StatusCodes.Status200OK);
         }
 
         public CommonResponseType<PurchaseOrderDto> Validate(PurchaseOrderDto dto)
@@ -48,23 +48,23 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<PurchaseOrderDto>();
         }
 
-        public async Task<CommonResponseType<PurchaseOrderReadDto>> CreateAsync(PurchaseOrderDto dto)
+        public async Task<CommonResponseType<GetPurchaseOrderDto>> CreateAsync(PurchaseOrderDto dto)
         {
             var validateResponse = Validate(dto);
             if (!validateResponse.IsSuccessStatusCode())
-                return new CommonResponseType<PurchaseOrderReadDto>(validateResponse.Message, validateResponse.StatusCode);
+                return new CommonResponseType<GetPurchaseOrderDto>(validateResponse.Message, validateResponse.StatusCode);
 
             var order = _mapper.Map<PurchaseOrder>(dto);
             _repo.Add(order);
             await _repo.SaveAsync();
-            return new CommonResponseType<PurchaseOrderReadDto>(_mapper.Map<PurchaseOrderReadDto>(order), StatusCodes.Status201Created);
+            return new CommonResponseType<GetPurchaseOrderDto>(_mapper.Map<GetPurchaseOrderDto>(order), StatusCodes.Status201Created);
         }
 
-        public async Task<CommonResponseType<PurchaseOrderReadDto>> UpdateAsync(int id, PurchaseOrderDto dto)
+        public async Task<CommonResponseType<GetPurchaseOrderDto>> UpdateAsync(int id, PurchaseOrderDto dto)
         {
             var existing = await _repo.GetByIdAsync(id);
             if (existing == null)
-                return new CommonResponseType<PurchaseOrderReadDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+                return new CommonResponseType<GetPurchaseOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
 
             // Clear existing items and add new
             existing.Items.Clear();
@@ -78,13 +78,13 @@ namespace WarehouseManagementService.Domain.Services
             existing.CustomerId = dto.CustomerId;
 
             await _repo.SaveAsync();
-            return new CommonResponseType<PurchaseOrderReadDto>(_mapper.Map<PurchaseOrderReadDto>(existing), StatusCodes.Status200OK);
+            return new CommonResponseType<GetPurchaseOrderDto>(_mapper.Map<GetPurchaseOrderDto>(existing), StatusCodes.Status200OK);
         }
 
         public async Task<CommonResponseType<PurchaseOrderDto>> DeleteAsync(int id)
         {
             var existing = await _repo.GetByIdAsync(id);
-            if (existing == null) new CommonResponseType<ProductDto>("Order with the given Id not found", StatusCodes.Status404NotFound); ;
+            if (existing == null) new CommonResponseType<GetProductDto>("Order with the given Id not found", StatusCodes.Status404NotFound); ;
 
             _repo.Remove(existing);
             await _repo.SaveAsync();

@@ -7,7 +7,7 @@
         public List<PurchaseOrderItemDto> Items { get; set; }
     }
 
-    public class PurchaseOrderReadDto : PurchaseOrderDto
+    public class GetPurchaseOrderDto : PurchaseOrderDto
     {
         public int OrderId { get; set; }
     }
@@ -17,7 +17,7 @@
         public int Quantity { get; set; }
     }
 
-    public class PurchaseOrderItemReadDto : PurchaseOrderItemDto
+    public class GetPurchaseOrderItemDto : PurchaseOrderItemDto
     {
         public int Id { get; set; }
     }

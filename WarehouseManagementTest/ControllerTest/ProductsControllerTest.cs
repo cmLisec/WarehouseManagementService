@@ -25,7 +25,7 @@ namespace WarehouseManagementService.Tests.Controllers
         [Test]
         public async Task CreateProduct_ShouldReturnCreatedProduct()
         {
-            var dto = new BaseProductDto
+            var dto = new ProductDto
             {
                 Description = "product1",
                 Dimensions = "100*200",
@@ -39,7 +39,7 @@ namespace WarehouseManagementService.Tests.Controllers
             var objectResult = result.Result as ObjectResult;
             Assert.That(objectResult.StatusCode, Is.EqualTo(201));
 
-            var product = objectResult.Value as ProductDto;
+            var product = objectResult.Value as GetProductDto;
             Assert.That(product.ProductCode, Is.EqualTo(dto.ProductCode));
         }
 
@@ -57,7 +57,7 @@ namespace WarehouseManagementService.Tests.Controllers
 
             var result = await _controller.GetAllCustomers();
             var okResult = result.Result as OkObjectResult;
-            var response = okResult?.Value as List<ProductDto>;
+            var response = okResult?.Value as List<GetProductDto>;
 
             Assert.That(okResult?.StatusCode, Is.EqualTo(200));
             Assert.That(response, Has.Count.EqualTo(1));
@@ -77,7 +77,7 @@ namespace WarehouseManagementService.Tests.Controllers
 
             var result = await _controller.GetCustomer(1);
             var okResult = result.Result as OkObjectResult;
-            var response = okResult?.Value as ProductDto;
+            var response = okResult?.Value as GetProductDto;
 
             Assert.That(okResult?.StatusCode, Is.EqualTo(200));
             Assert.That(response?.ProductCode, Is.EqualTo("p1"));
@@ -99,7 +99,7 @@ namespace WarehouseManagementService.Tests.Controllers
             // Detach to prevent multiple tracking issues
             _context.Entry(product).State = EntityState.Detached;
 
-            var dto = new BaseProductDto
+            var dto = new ProductDto
             {
                 Description = "product1",
                 Dimensions = "100*200",
@@ -109,7 +109,7 @@ namespace WarehouseManagementService.Tests.Controllers
 
             var result = await _controller.UpdateCustomer(product.ProductId, dto);
             var okResult = result.Result as OkObjectResult;
-            var response = okResult?.Value as ProductDto;
+            var response = okResult?.Value as GetProductDto;
 
             Assert.That(okResult?.StatusCode, Is.EqualTo(200));
             Assert.That(response?.Title, Is.EqualTo(dto.Title));

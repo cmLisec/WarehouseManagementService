@@ -8,26 +8,26 @@ namespace WarehouseManagementService.Domain.Mapper
     {
         public MappingProfile()
         {
+            CreateMap<Customer, GetCustomerDto>().ReverseMap();
             CreateMap<Customer, CustomerDto>().ReverseMap();
-            CreateMap<Customer, BaseCustomerDto>().ReverseMap();
 
+            CreateMap<Product, GetProductDto>().ReverseMap();
             CreateMap<Product, ProductDto>().ReverseMap();
-            CreateMap<Product, BaseProductDto>().ReverseMap();
 
-            CreateMap<PurchaseOrder, PurchaseOrderReadDto>().ReverseMap();
+            CreateMap<PurchaseOrder, GetPurchaseOrderDto>().ReverseMap();
             CreateMap<PurchaseOrderDto, PurchaseOrder>()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)).ReverseMap()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
 
-            CreateMap<PurchaseOrderItem, PurchaseOrderItemReadDto>().ReverseMap();
+            CreateMap<PurchaseOrderItem, GetPurchaseOrderItemDto>().ReverseMap();
             CreateMap<PurchaseOrderItemDto, PurchaseOrderItem>().ReverseMap();
 
-            CreateMap<SalesOrder, SalesOrderReadDto>().ReverseMap();
+            CreateMap<SalesOrder, GetSalesOrderDto>().ReverseMap();
             CreateMap<SalesOrderDto, SalesOrder>()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items)).ReverseMap()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
 
-            CreateMap<SalesOrderItem, SalesOrderItemReadDto>().ReverseMap();
+            CreateMap<SalesOrderItem, GetSalesOrderItemDto>().ReverseMap();
             CreateMap<SalesOrderItemDto, SalesOrderItem>().ReverseMap();
         }
     }
