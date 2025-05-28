@@ -18,7 +18,7 @@ namespace WarehouseManagementService.Tests.Controllers
         {
             InitialiseSetup();
             var repo = new ProductsRepository(_context);
-            var service = new ProductsService(repo, _mapper);
+            var service = new ProductsService(repo, _mapper, CreateLoggerInstance<ProductsService>());
             _controller = new ProductsController(service);
         }
 

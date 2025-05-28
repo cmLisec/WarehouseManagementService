@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WarehouseManagementService.Domain;
 using WarehouseManagementService.Domain.Dtos;
 using WarehouseManagementService.Domain.Models;
@@ -47,6 +48,12 @@ namespace WarehouseManagementTest.TestData
 
             _mapper = config.CreateMapper();
         }
+        public ILogger<T> CreateLoggerInstance<T>() where T : class
+        {
+            return LoggerFactory
+                .Create(builder => builder.AddConsole())
+                .CreateLogger<T>();
+        }
         public async Task AddRequiredTestData()
         {
             var purchaseOrder = new PurchaseOrder
@@ -75,7 +82,7 @@ namespace WarehouseManagementTest.TestData
                     }
                 },
                 ProcessingDate = DateTime.Now,
-                ShipmentAddress ="dubai"
+                ShipmentAddress = "dubai"
             };
             _context.SalesOrders.Add(salesOrder);
             var customer = new Customer { Name = "John Doe", Address = "456 Lane" };

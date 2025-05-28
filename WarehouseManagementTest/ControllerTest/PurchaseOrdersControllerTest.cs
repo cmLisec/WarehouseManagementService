@@ -1,13 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WarehouseManagementService.Controllers;
 using WarehouseManagementService.Domain.Dtos;
-using WarehouseManagementService.Domain.Models;
 using WarehouseManagementService.Domain.Repositories;
 using WarehouseManagementService.Domain.Services;
 using WarehouseManagementTest.TestData;
@@ -23,7 +16,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             InitialiseSetup();
             var repo = new PurchaseOrdersRepository(_context);
-            var service = new PurchaseOrdersService(repo, _mapper);
+            var service = new PurchaseOrdersService(repo, _mapper, CreateLoggerInstance<PurchaseOrdersService>());
             _controller = new PurchaseOrdersController(service);
         }
         [Test]

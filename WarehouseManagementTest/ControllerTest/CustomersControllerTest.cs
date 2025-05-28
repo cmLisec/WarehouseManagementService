@@ -19,9 +19,11 @@ namespace WarehouseManagementService.Tests.Controllers
         {
             InitialiseSetup();
             var repo = new CustomersRepository(_context);
-            var service = new CustomersService(repo, _mapper);
+            var service = new CustomersService(repo, _mapper, CreateLoggerInstance<CustomersService>());
             _controller = new CustomersController(service);
         }
+
+
 
         [Test]
         public async Task GetAllCustomers_ReturnsEmptyList_WhenNoCustomersExist()

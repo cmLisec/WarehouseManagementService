@@ -10,28 +10,35 @@ namespace WarehouseManagementService.Domain.Services
     {
         private readonly SalesOrdersRepository _repo;
         private readonly IMapper _mapper;
+        private readonly ILogger<SalesOrdersService> _logger;
 
-        public SalesOrdersService(SalesOrdersRepository repo, IMapper mapper)
+        public SalesOrdersService(SalesOrdersRepository repo, IMapper mapper, ILogger<SalesOrdersService> logger)
         {
-            _repo = repo;
-            _mapper = mapper;
-        }
-        public async Task<CommonResponseType<List<GetSalesOrderDto>>> GetAllSalesOrdersAsync()
-        {
-            var SalesOrders = await _repo.GetAllAsync();
-            if (SalesOrders.Count == 0)
-                return new CommonResponseType<List<GetSalesOrderDto>>("No Sales orders available", StatusCodes.Status204NoContent);
-
-            return new CommonResponseType<List<GetSalesOrderDto>>(_mapper.Map<List<GetSalesOrderDto>>(SalesOrders), StatusCodes.Status200OK);
+            _repo = repo; _mapper = mapper; _logger = logger;
         }
 
-        public async Task<CommonResponseType<GetSalesOrderDto>> GetSalesOrderByIdAsync(int id)
+        public Task<CommonResponseType<List<GetSalesOrderDto>>> GetAllSalesOrdersAsync()
         {
-            var SalesOrder = await _repo.GetByIdAsync(id);
-            if (SalesOrder == null)
-                return new CommonResponseType<GetSalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+            return ServiceExecutor.TryExecuteAsync(async () =>
+            {
+                var salesOrders = await _repo.GetAllAsync();
+                if (salesOrders.Count == 0)
+                    return new CommonResponseType<List<GetSalesOrderDto>>("No Sales orders available", StatusCodes.Status204NoContent);
 
-            return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(SalesOrder), StatusCodes.Status200OK);
+                return new CommonResponseType<List<GetSalesOrderDto>>(_mapper.Map<List<GetSalesOrderDto>>(salesOrders), StatusCodes.Status200OK);
+            }, _logger, nameof(GetAllSalesOrdersAsync));
+        }
+
+        public Task<CommonResponseType<GetSalesOrderDto>> GetSalesOrderByIdAsync(int id)
+        {
+            return ServiceExecutor.TryExecuteAsync(async () =>
+            {
+                var salesOrder = await _repo.GetByIdAsync(id);
+                if (salesOrder == null)
+                    return new CommonResponseType<GetSalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+
+                return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(salesOrder), StatusCodes.Status200OK);
+            }, _logger, nameof(GetSalesOrderByIdAsync));
         }
 
         public CommonResponseType<SalesOrderDto> Validate(SalesOrderDto dto)
@@ -48,48 +55,56 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<SalesOrderDto>();
         }
 
-        public async Task<CommonResponseType<GetSalesOrderDto>> CreateSalesOrderAsync(SalesOrderDto dto)
+        public Task<CommonResponseType<GetSalesOrderDto>> CreateSalesOrderAsync(SalesOrderDto dto)
         {
-            var validateResponse = Validate(dto);
-            if (!validateResponse.IsSuccessStatusCode())
-                return new CommonResponseType<GetSalesOrderDto>(validateResponse.Message, validateResponse.StatusCode);
-
-            var order = _mapper.Map<SalesOrder>(dto);
-            _repo.Add(order);
-            await _repo.SaveAsync();
-            return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(order), StatusCodes.Status201Created);
-        }
-
-        public async Task<CommonResponseType<GetSalesOrderDto>> UpdateSalesOrderAsync(int id, SalesOrderDto dto)
-        {
-            var existing = await _repo.GetByIdAsync(id);
-            if (existing == null)
-                return new CommonResponseType<GetSalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
-
-            // Clear existing items and add new
-            existing.Items.Clear();
-            foreach (var itemDto in dto.Items)
+            return ServiceExecutor.TryExecuteAsync(async () =>
             {
-                var item = _mapper.Map<SalesOrderItem>(itemDto);
-                existing.Items.Add(item);
-            }
+                var validateResponse = Validate(dto);
+                if (!validateResponse.IsSuccessStatusCode())
+                    return new CommonResponseType<GetSalesOrderDto>(validateResponse.Message, validateResponse.StatusCode);
 
-            existing.ProcessingDate = dto.ProcessingDate;
-            existing.CustomerId = dto.CustomerId;
+                var order = _mapper.Map<SalesOrder>(dto);
+                _repo.Add(order);
+                await _repo.SaveAsync();
 
-            await _repo.SaveAsync();
-            return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(existing), StatusCodes.Status200OK);
+                return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(order), StatusCodes.Status201Created);
+            }, _logger, nameof(CreateSalesOrderAsync));
         }
 
-        public async Task<CommonResponseType<SalesOrderDto>> DeleteSalesOrderAsync(int id)
+        public Task<CommonResponseType<GetSalesOrderDto>> UpdateSalesOrderAsync(int id, SalesOrderDto dto)
         {
-            var existing = await _repo.GetByIdAsync(id);
-            if (existing == null)
-                return new CommonResponseType<SalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound); ;
+            return ServiceExecutor.TryExecuteAsync(async () =>
+            {
+                var existing = await _repo.GetByIdAsync(id);
+                if (existing == null)
+                    return new CommonResponseType<GetSalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
 
-            _repo.Remove(existing);
-            await _repo.SaveAsync();
-            return new CommonResponseType<SalesOrderDto>();
+                existing.Items.Clear();
+                foreach (var itemDto in dto.Items)
+                    existing.Items.Add(_mapper.Map<SalesOrderItem>(itemDto));
+
+                existing.ProcessingDate = dto.ProcessingDate;
+                existing.CustomerId = dto.CustomerId;
+
+                await _repo.SaveAsync();
+
+                return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(existing), StatusCodes.Status200OK);
+            }, _logger, nameof(UpdateSalesOrderAsync));
+        }
+
+        public Task<CommonResponseType<SalesOrderDto>> DeleteSalesOrderAsync(int id)
+        {
+            return ServiceExecutor.TryExecuteAsync(async () =>
+            {
+                var existing = await _repo.GetByIdAsync(id);
+                if (existing == null)
+                    return new CommonResponseType<SalesOrderDto>("Order with the given Id not found", StatusCodes.Status404NotFound);
+
+                _repo.Remove(existing);
+                await _repo.SaveAsync();
+
+                return new CommonResponseType<SalesOrderDto>();
+            }, _logger, nameof(DeleteSalesOrderAsync));
         }
     }
 }
