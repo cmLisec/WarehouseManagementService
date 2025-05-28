@@ -44,7 +44,7 @@ namespace WarehouseManagementTest.ControllerTest
                 ShipmentAddress = "Dubai"
             };
 
-            var result = await _controller.CreateSalesOrder(dto);
+            var result = await _controller.CreateSalesOrderAsync(dto);
 
             Assert.That(result.Result, Is.TypeOf<ObjectResult>());
             var objectResult = result.Result as ObjectResult;
@@ -59,7 +59,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             await AddRequiredTestData();
 
-            var result = await _controller.GetAllSalesOrders();
+            var result = await _controller.GetAllSalesOrdersAsync();
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as List<SalesOrderDto>;
 
@@ -71,7 +71,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             await AddRequiredTestData();
 
-            var result = await _controller.GetSalesOrder(1);
+            var result = await _controller.GetSalesOrderByIdAsync(1);
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as SalesOrderDto;
 
@@ -96,7 +96,7 @@ namespace WarehouseManagementTest.ControllerTest
                 }
             };
 
-            var result = await _controller.UpdateSalesOrder(1, dto);
+            var result = await _controller.UpdateSalesOrderAsync(1, dto);
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as SalesOrderDto;
 
@@ -109,7 +109,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             await AddRequiredTestData();
 
-            var result = await _controller.DeleteSalesOrder(1);
+            var result = await _controller.DeleteSalesOrderAsync(1);
             var okResult = result.Result as OkResult;
 
             Assert.That(okResult?.StatusCode, Is.EqualTo(200));

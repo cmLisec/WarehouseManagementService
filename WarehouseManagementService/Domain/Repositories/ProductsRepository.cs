@@ -12,29 +12,29 @@ namespace WarehouseManagementService.Domain.Repositories
             _context = context;
         }
 
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllProductsAsync()
         {
             return await _context.Products.ToListAsync();
         }
 
-        public async Task<Product?> GetByIdAsync(int id)
+        public async Task<Product?> GetProductByIdAsync(int id)
         {
             return await _context.Products.AsNoTracking().FirstOrDefaultAsync(i => i.ProductId == id);
         }
 
-        public async Task<Product> AddAsync(Product Product)
+        public async Task<Product> CreateProductAsync(Product Product)
         {
             await _context.Products.AddAsync(Product);
             return Product;
         }
 
-        public async Task UpdateAsync(Product Product)
+        public async Task UpdateProductAsync(Product Product)
         {
             _context.Products.Update(Product);
             await Task.CompletedTask;
         }
 
-        public async Task DeleteAsync(Product Product)
+        public async Task DeleteProductAsync(Product Product)
         {
             _context.Products.Remove(Product);
             await Task.CompletedTask;

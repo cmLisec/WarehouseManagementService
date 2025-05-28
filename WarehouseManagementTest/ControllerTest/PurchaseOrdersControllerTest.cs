@@ -43,7 +43,7 @@ namespace WarehouseManagementTest.ControllerTest
                 }
             };
 
-            var result = await _controller.CreatePurchaseOrder(dto);
+            var result = await _controller.CreatePurchaseOrderAsync(dto);
 
             Assert.That(result.Result, Is.TypeOf<ObjectResult>());
             var objectResult = result.Result as ObjectResult;
@@ -58,7 +58,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             await AddRequiredTestData();
 
-            var result = await _controller.GetAllPurchaseOrders();
+            var result = await _controller.GetAllPurchaseOrdersAsync();
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as List<PurchaseOrderDto>;
 
@@ -70,7 +70,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             await AddRequiredTestData();
 
-            var result = await _controller.GetPurchaseOrder(1);
+            var result = await _controller.GetPurchaseOrderByIdAsync(1);
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as PurchaseOrderDto;
 
@@ -95,7 +95,7 @@ namespace WarehouseManagementTest.ControllerTest
                 }
             };
 
-            var result = await _controller.UpdatePurchaseOrder(1, dto);
+            var result = await _controller.UpdatePurchaseOrderAsync(1, dto);
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as PurchaseOrderDto;
 
@@ -108,7 +108,7 @@ namespace WarehouseManagementTest.ControllerTest
         {
             await AddRequiredTestData();
 
-            var result = await _controller.DeletePurchaseOrder(1);
+            var result = await _controller.DeletePurchaseOrderAsync(1);
             var okResult = result.Result as OkResult;
 
             Assert.That(okResult?.StatusCode, Is.EqualTo(200));

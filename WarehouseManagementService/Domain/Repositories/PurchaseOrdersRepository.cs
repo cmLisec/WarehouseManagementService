@@ -11,24 +11,24 @@ namespace WarehouseManagementService.Domain.Repositories
         {
             _context = context;
         }
-        public async Task<List<PurchaseOrder>> GetAllAsync()
+        public async Task<List<PurchaseOrder>> GetAllPurchaseOrdersAsync()
         {
             return await _context.PurchaseOrders.Include(po => po.Items).ToListAsync();
         }
 
-        public async Task<PurchaseOrder?> GetByIdAsync(int id)
+        public async Task<PurchaseOrder?> GetPurchaseOrderByIdAsync(int id)
         {
             return await _context.PurchaseOrders
                 .Include(po => po.Items)
                 .FirstOrDefaultAsync(po => po.OrderId == id);
         }
 
-        public void Add(PurchaseOrder order)
+        public void CreatePurchaseOrderAsync(PurchaseOrder order)
         {
             _context.PurchaseOrders.Add(order);
         }
 
-        public void Remove(PurchaseOrder order)
+        public void DeletePurchaseOrderAsync(PurchaseOrder order)
         {
             _context.PurchaseOrders.Remove(order);
         }

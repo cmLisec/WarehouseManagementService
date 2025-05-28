@@ -16,7 +16,7 @@ namespace WarehouseManagementService.Domain.Services
             _repo = repo;
             _mapper = mapper;
         }
-        public async Task<CommonResponseType<List<GetSalesOrderDto>>> GetAllAsync()
+        public async Task<CommonResponseType<List<GetSalesOrderDto>>> GetAllSalesOrdersAsync()
         {
             var SalesOrders = await _repo.GetAllAsync();
             if (SalesOrders.Count == 0)
@@ -25,7 +25,7 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<List<GetSalesOrderDto>>(_mapper.Map<List<GetSalesOrderDto>>(SalesOrders), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<GetSalesOrderDto>> GetByIdAsync(int id)
+        public async Task<CommonResponseType<GetSalesOrderDto>> GetSalesOrderByIdAsync(int id)
         {
             var SalesOrder = await _repo.GetByIdAsync(id);
             if (SalesOrder == null)
@@ -48,7 +48,7 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<SalesOrderDto>();
         }
 
-        public async Task<CommonResponseType<GetSalesOrderDto>> CreateAsync(SalesOrderDto dto)
+        public async Task<CommonResponseType<GetSalesOrderDto>> CreateSalesOrderAsync(SalesOrderDto dto)
         {
             var validateResponse = Validate(dto);
             if (!validateResponse.IsSuccessStatusCode())
@@ -60,7 +60,7 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(order), StatusCodes.Status201Created);
         }
 
-        public async Task<CommonResponseType<GetSalesOrderDto>> UpdateAsync(int id, SalesOrderDto dto)
+        public async Task<CommonResponseType<GetSalesOrderDto>> UpdateSalesOrderAsync(int id, SalesOrderDto dto)
         {
             var existing = await _repo.GetByIdAsync(id);
             if (existing == null)
@@ -81,7 +81,7 @@ namespace WarehouseManagementService.Domain.Services
             return new CommonResponseType<GetSalesOrderDto>(_mapper.Map<GetSalesOrderDto>(existing), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<SalesOrderDto>> DeleteAsync(int id)
+        public async Task<CommonResponseType<SalesOrderDto>> DeleteSalesOrderAsync(int id)
         {
             var existing = await _repo.GetByIdAsync(id);
             if (existing == null)

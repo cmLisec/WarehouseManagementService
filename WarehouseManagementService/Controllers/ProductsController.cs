@@ -16,37 +16,37 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetProductDto>>> GetAllCustomers()
+        public async Task<ActionResult<List<GetProductDto>>> GetAllProductsAsync()
         {
-            var products = await _productsService.GetAllAsync();
+            var products = await _productsService.GetAllProductsAsync();
             return ReplyCommonResponse(products);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetProductDto>> GetCustomer(int id)
+        public async Task<ActionResult<GetProductDto>> GetProductByIdAsync(int id)
         {
-            var product = await _productsService.GetByIdAsync(id);
+            var product = await _productsService.GetProductByIdAsync(id);
             return ReplyCommonResponse(product);
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetProductDto>> CreateCustomer([FromBody] ProductDto ProductDto)
+        public async Task<ActionResult<GetProductDto>> CreateProductAsync([FromBody] ProductDto ProductDto)
         {
-            var createdProduct = await _productsService.CreateAsync(ProductDto);
+            var createdProduct = await _productsService.CreateProductAsync(ProductDto);
             return ReplyCommonResponse(createdProduct);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetProductDto>> UpdateCustomer(int id, [FromBody] ProductDto ProductDto)
+        public async Task<ActionResult<GetProductDto>> UpdateProductAsync(int id, [FromBody] ProductDto ProductDto)
         {
-            var updatedProduct = await _productsService.UpdateAsync(id, ProductDto);
+            var updatedProduct = await _productsService.UpdateProductAsync(id, ProductDto);
             return ReplyCommonResponse(updatedProduct);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<GetProductDto>> DeleteCustomer(int id)
+        public async Task<ActionResult<GetProductDto>> DeleteProductAsync(int id)
         {
-            var deleted = await _productsService.DeleteAsync(id);
+            var deleted = await _productsService.DeleteProductAsync(id);
             return ReplyCommonResponse(deleted);
         }
     }

@@ -17,54 +17,54 @@ namespace WarehouseManagementService.Domain.Services
             _mapper = mapper;
         }
 
-        public async Task<CommonResponseType<List<GetProductDto>>> GetAllAsync()
+        public async Task<CommonResponseType<List<GetProductDto>>> GetAllProductsAsync()
         {
-            var products = await _repo.GetAllAsync();
+            var products = await _repo.GetAllProductsAsync();
             if (products.Count == 0)
                 return new CommonResponseType<List<GetProductDto>>("No products available", StatusCodes.Status204NoContent);
 
             return new CommonResponseType<List<GetProductDto>>(_mapper.Map<List<GetProductDto>>(products), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<GetProductDto>> GetByIdAsync(int id)
+        public async Task<CommonResponseType<GetProductDto>> GetProductByIdAsync(int id)
         {
-            var product = await _repo.GetByIdAsync(id);
+            var product = await _repo.GetProductByIdAsync(id);
             if (product == null)
                 return new CommonResponseType<GetProductDto>("Product with the given Id not found", StatusCodes.Status404NotFound);
 
             return new CommonResponseType<GetProductDto>(_mapper.Map<GetProductDto>(product), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<GetProductDto>> CreateAsync(ProductDto dto)
+        public async Task<CommonResponseType<GetProductDto>> CreateProductAsync(ProductDto dto)
         {
             var product = _mapper.Map<Product>(dto);
-            var productAdded = await _repo.AddAsync(product);
+            var productAdded = await _repo.CreateProductAsync(product);
             await _repo.SaveChangesAsync();
 
             return new CommonResponseType<GetProductDto>(_mapper.Map<GetProductDto>(productAdded), StatusCodes.Status201Created);
         }
 
-        public async Task<CommonResponseType<GetProductDto>> UpdateAsync(int id, ProductDto dto)
+        public async Task<CommonResponseType<GetProductDto>> UpdateProductAsync(int id, ProductDto dto)
         {
-            var product = await _repo.GetByIdAsync(id);
+            var product = await _repo.GetProductByIdAsync(id);
             if (product == null)
                 return new CommonResponseType<GetProductDto>("Product with the given Id not found", StatusCodes.Status404NotFound);
 
             var productToUpdate = _mapper.Map<Product>(dto);
             productToUpdate.ProductId = id;
 
-            await _repo.UpdateAsync(productToUpdate);
+            await _repo.UpdateProductAsync(productToUpdate);
             await _repo.SaveChangesAsync();
             return new CommonResponseType<GetProductDto>(_mapper.Map<GetProductDto>(productToUpdate), StatusCodes.Status200OK);
         }
 
-        public async Task<CommonResponseType<GetProductDto>> DeleteAsync(int id)
+        public async Task<CommonResponseType<GetProductDto>> DeleteProductAsync(int id)
         {
-            var product = await _repo.GetByIdAsync(id);
+            var product = await _repo.GetProductByIdAsync(id);
             if (product == null)
                 return new CommonResponseType<GetProductDto>("Product with the given Id not found", StatusCodes.Status404NotFound);
 
-            await _repo.DeleteAsync(product);
+            await _repo.DeleteProductAsync(product);
             await _repo.SaveChangesAsync();
             return new CommonResponseType<GetProductDto>();
         }

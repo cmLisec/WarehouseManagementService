@@ -16,37 +16,37 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetSalesOrderDto>>> GetAllSalesOrders()
+        public async Task<ActionResult<List<GetSalesOrderDto>>> GetAllSalesOrdersAsync()
         {
-            var SalesOrders = await _SalesOrdersService.GetAllAsync();
+            var SalesOrders = await _SalesOrdersService.GetAllSalesOrdersAsync();
             return ReplyCommonResponse(SalesOrders);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetSalesOrderDto>> GetSalesOrder(int id)
+        public async Task<ActionResult<GetSalesOrderDto>> GetSalesOrderByIdAsync(int id)
         {
-            var SalesOrder = await _SalesOrdersService.GetByIdAsync(id);
+            var SalesOrder = await _SalesOrdersService.GetSalesOrderByIdAsync(id);
             return ReplyCommonResponse(SalesOrder);
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetSalesOrderDto>> CreateSalesOrder([FromBody] SalesOrderDto SalesOrderDto)
+        public async Task<ActionResult<GetSalesOrderDto>> CreateSalesOrderAsync([FromBody] SalesOrderDto SalesOrderDto)
         {
-            var createdSalesOrder = await _SalesOrdersService.CreateAsync(SalesOrderDto);
+            var createdSalesOrder = await _SalesOrdersService.CreateSalesOrderAsync(SalesOrderDto);
             return ReplyCommonResponse(createdSalesOrder);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetSalesOrderDto>> UpdateSalesOrder(int id, [FromBody] SalesOrderDto SalesOrderDto)
+        public async Task<ActionResult<GetSalesOrderDto>> UpdateSalesOrderAsync(int id, [FromBody] SalesOrderDto SalesOrderDto)
         {
-            var updatedSalesOrder = await _SalesOrdersService.UpdateAsync(id, SalesOrderDto);
+            var updatedSalesOrder = await _SalesOrdersService.UpdateSalesOrderAsync(id, SalesOrderDto);
             return ReplyCommonResponse(updatedSalesOrder);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<SalesOrderDto>> DeleteSalesOrder(int id)
+        public async Task<ActionResult<SalesOrderDto>> DeleteSalesOrderAsync(int id)
         {
-            var deleted = await _SalesOrdersService.DeleteAsync(id);
+            var deleted = await _SalesOrdersService.DeleteSalesOrderAsync(id);
             return ReplyCommonResponse(deleted);
         }
     }

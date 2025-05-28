@@ -18,35 +18,35 @@ namespace WarehouseManagementService.Controllers
         [HttpGet]
         public async Task<ActionResult<List<GetCustomerDto>>> GetAllCustomers()
         {
-            var customers = await _customerService.GetAllAsync();
+            var customers = await _customerService.GetAllCustomersAsync();
             return ReplyCommonResponse(customers);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GetCustomerDto>> GetCustomer(int id)
         {
-            var customer = await _customerService.GetByIdAsync(id);
+            var customer = await _customerService.GetCustomerByIdAsync(id);
             return ReplyCommonResponse(customer);
         }
 
         [HttpPost]
         public async Task<ActionResult<GetCustomerDto>> CreateCustomer([FromBody] CustomerDto customerDto)
         {
-            var createdCustomer = await _customerService.CreateAsync(customerDto);
+            var createdCustomer = await _customerService.CreateCustomerAsync(customerDto);
             return ReplyCommonResponse(createdCustomer);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<GetCustomerDto>> UpdateCustomer(int id, [FromBody] CustomerDto customerDto)
         {
-            var updatedCustomer = await _customerService.UpdateAsync(id, customerDto);
+            var updatedCustomer = await _customerService.UpdateCustomerAsync(id, customerDto);
             return ReplyCommonResponse(updatedCustomer);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<GetCustomerDto>> DeleteCustomer(int id)
         {
-            var deleted = await _customerService.DeleteAsync(id);
+            var deleted = await _customerService.DeleteCustomerAsync(id);
             return ReplyCommonResponse(deleted);
         }
     }

@@ -16,37 +16,37 @@ namespace WarehouseManagementService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetPurchaseOrderDto>>> GetAllPurchaseOrders()
+        public async Task<ActionResult<List<GetPurchaseOrderDto>>> GetAllPurchaseOrdersAsync()
         {
-            var PurchaseOrders = await _purchaseOrdersService.GetAllAsync();
+            var PurchaseOrders = await _purchaseOrdersService.GetAllPurchaseOrdersAsync();
             return ReplyCommonResponse(PurchaseOrders);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GetPurchaseOrderDto>> GetPurchaseOrder(int id)
+        public async Task<ActionResult<GetPurchaseOrderDto>> GetPurchaseOrderByIdAsync(int id)
         {
-            var PurchaseOrder = await _purchaseOrdersService.GetByIdAsync(id);
+            var PurchaseOrder = await _purchaseOrdersService.GetPurchaseOrderByIdAsync(id);
             return ReplyCommonResponse(PurchaseOrder);
         }
 
         [HttpPost]
-        public async Task<ActionResult<GetPurchaseOrderDto>> CreatePurchaseOrder([FromBody] PurchaseOrderDto purchaseOrderDto)
+        public async Task<ActionResult<GetPurchaseOrderDto>> CreatePurchaseOrderAsync([FromBody] PurchaseOrderDto purchaseOrderDto)
         {
-            var createdPurchaseOrder = await _purchaseOrdersService.CreateAsync(purchaseOrderDto);
+            var createdPurchaseOrder = await _purchaseOrdersService.CreatePurchaseOrderAsync(purchaseOrderDto);
             return ReplyCommonResponse(createdPurchaseOrder);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<GetPurchaseOrderDto>> UpdatePurchaseOrder(int id, [FromBody] PurchaseOrderDto purchaseOrderDto)
+        public async Task<ActionResult<GetPurchaseOrderDto>> UpdatePurchaseOrderAsync(int id, [FromBody] PurchaseOrderDto purchaseOrderDto)
         {
-            var updatedPurchaseOrder = await _purchaseOrdersService.UpdateAsync(id, purchaseOrderDto);
+            var updatedPurchaseOrder = await _purchaseOrdersService.UpdatePurchaseOrderAsync(id, purchaseOrderDto);
             return ReplyCommonResponse(updatedPurchaseOrder);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<PurchaseOrderDto>> DeletePurchaseOrder(int id)
+        public async Task<ActionResult<PurchaseOrderDto>> DeletePurchaseOrderAsync(int id)
         {
-            var deleted = await _purchaseOrdersService.DeleteAsync(id);
+            var deleted = await _purchaseOrdersService.DeletePurchaseOrderAsync(id);
             return ReplyCommonResponse(deleted);
         }
     }

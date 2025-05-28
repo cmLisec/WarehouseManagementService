@@ -33,7 +33,7 @@ namespace WarehouseManagementService.Tests.Controllers
                 Title = "new"
             };
 
-            var result = await _controller.CreateCustomer(dto);
+            var result = await _controller.CreateProductAsync(dto);
 
             Assert.That(result.Result, Is.TypeOf<ObjectResult>());
             var objectResult = result.Result as ObjectResult;
@@ -55,7 +55,7 @@ namespace WarehouseManagementService.Tests.Controllers
             });
             await _context.SaveChangesAsync();
 
-            var result = await _controller.GetAllCustomers();
+            var result = await _controller.GetAllProductsAsync();
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as List<GetProductDto>;
 
@@ -75,7 +75,7 @@ namespace WarehouseManagementService.Tests.Controllers
             });
             await _context.SaveChangesAsync();
 
-            var result = await _controller.GetCustomer(1);
+            var result = await _controller.GetProductByIdAsync(1);
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as GetProductDto;
 
@@ -107,7 +107,7 @@ namespace WarehouseManagementService.Tests.Controllers
                 Title = "new-updated"
             };
 
-            var result = await _controller.UpdateCustomer(product.ProductId, dto);
+            var result = await _controller.UpdateProductAsync(product.ProductId, dto);
             var okResult = result.Result as OkObjectResult;
             var response = okResult?.Value as GetProductDto;
 
@@ -131,7 +131,7 @@ namespace WarehouseManagementService.Tests.Controllers
             // Detach to prevent multiple tracking issues
             _context.Entry(product).State = EntityState.Detached;
 
-            var result = await _controller.DeleteCustomer(product.ProductId);
+            var result = await _controller.DeleteProductAsync(product.ProductId);
             var okResult = result.Result as OkResult;
 
             Assert.That(okResult?.StatusCode, Is.EqualTo(200));
