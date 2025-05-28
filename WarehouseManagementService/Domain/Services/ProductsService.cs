@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Net;
 using WarehouseManagementService.Domain.Dtos;
 using WarehouseManagementService.Domain.Models;
 using WarehouseManagementService.Domain.Repositories;
@@ -33,7 +32,7 @@ namespace WarehouseManagementService.Domain.Services
             if (product == null)
                 return new CommonResponseType<ProductDto>("Product with the given Id not found", StatusCodes.Status404NotFound);
 
-            return  new CommonResponseType<ProductDto>(_mapper.Map<ProductDto>(product), StatusCodes.Status200OK);
+            return new CommonResponseType<ProductDto>(_mapper.Map<ProductDto>(product), StatusCodes.Status200OK);
         }
 
         public async Task<CommonResponseType<ProductDto>> CreateAsync(BaseProductDto dto)

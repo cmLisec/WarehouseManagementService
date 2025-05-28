@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WarehouseManagementService.Domain.Dtos;
-using WarehouseManagementService.Domain.Models;
 using WarehouseManagementService.Domain.Services;
 
 namespace WarehouseManagementService.Controllers

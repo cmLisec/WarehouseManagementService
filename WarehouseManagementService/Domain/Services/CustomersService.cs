@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Net;
 using WarehouseManagementService.Domain.Dtos;
 using WarehouseManagementService.Domain.Models;
 using WarehouseManagementService.Domain.Repositories;
@@ -33,7 +32,7 @@ namespace WarehouseManagementService.Domain.Services
             if (customer == null)
                 return new CommonResponseType<CustomerDto>("Customer with the given Id not found", StatusCodes.Status404NotFound);
 
-            return  new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customer), StatusCodes.Status200OK);
+            return new CommonResponseType<CustomerDto>(_mapper.Map<CustomerDto>(customer), StatusCodes.Status200OK);
         }
 
         public async Task<CommonResponseType<CustomerDto>> CreateAsync(BaseCustomerDto dto)

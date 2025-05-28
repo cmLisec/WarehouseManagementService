@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace WarehouseManagementService.Domain.Utilities
+﻿namespace WarehouseManagementService.Domain.Utilities
 {
     public class CommonResponseType<T> where T : class
     {

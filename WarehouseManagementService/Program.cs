@@ -29,6 +29,10 @@ builder.Services.AddScoped<CustomersService>();
 builder.Services.AddScoped<CustomersRepository>();
 builder.Services.AddScoped<ProductsService>();
 builder.Services.AddScoped<ProductsRepository>();
+builder.Services.AddScoped<PurchaseOrdersService>();
+builder.Services.AddScoped<PurchaseOrdersRepository>();
+builder.Services.AddScoped<SalesOrdersService>();
+builder.Services.AddScoped<SalesOrdersRepository>();
 
 var app = builder.Build();
 
