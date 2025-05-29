@@ -1,6 +1,6 @@
 # Warehouse Management Service API
 
-![.NET Core](https://img.shields.io/badge/.NET-6.0-blue)
+![.NET Core](https://img.shields.io/badge/.NET-9.0-blue)
 
 ## 📦 Project Overview
 
@@ -45,7 +45,7 @@ WarehouseManagementService/
 
 ## ✅ Prerequisites
 
-- [.NET 6 SDK](https://dotnet.microsoft.com/download)
+- [.NET 9 SDK](https://dotnet.microsoft.com/download)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or Azure SQL
 - [Docker](https://www.docker.com/) (optional)
 
@@ -163,5 +163,4 @@ to view the interactive Swagger documentation.
 - CI/CD pipeline setup
 
 ---
-
 
