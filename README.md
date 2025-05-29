@@ -64,7 +64,7 @@ WarehouseManagementService/
 
 ## ⚙️ Configuration
 
-The application reads database credentials from environment variables:
+The application uses the following environment variables to configure database access:
 
 | Environment Variable       | Description             |
 |---------------------------|-------------------------|
@@ -72,6 +72,18 @@ The application reads database credentials from environment variables:
 | `database.password`       | SQL Server password     |
 | `database.hostname`       | SQL Server host/IP      |
 | `database.databasename`   | Name of the database    |
+
+For local development, these are configured in `launchSettings.json`:
+
+```json
+"environmentVariables": {
+  "ASPNETCORE_ENVIRONMENT": "Development",
+  "database.username": "username",
+  "database.password": "****",
+  "database.hostname": "hostname",
+  "database.databasename": "dbname"
+}
+```
 
 ---
 
@@ -84,34 +96,25 @@ git clone https://github.com/your-org/warehouse-management-service.git
 cd warehouse-management-service
 ```
 
-### 2. Set environment variables
+### 2. Run the application
 
-Create a `.env` file or set environment variables in your terminal:
-
-```bash
-export database.username=youruser
-export database.password=yourpass
-export database.hostname=localhost
-export database.databasename=WarehouseDB
-```
-
-### 3. Run database migrations (optional)
-
-EF Core automatically applies migrations at startup. To manually apply them:
-
-```bash
-dotnet ef migrations add InitialCreate --project WarehouseManagementService
-dotnet ef database update --project WarehouseManagementService
-```
-
-### 4. Run the application
+Launch the API using the built-in settings from Visual Studio or via CLI:
 
 ```bash
 dotnet run --project WarehouseManagementService
 ```
 
 The API will be available at:  
-👉 `https://localhost:5001`
+👉 `http://localhost:5107/swagger`
+
+### 3. Apply EF Core Migrations (if needed)
+
+EF Core migrations are applied automatically at startup. To manually create or apply:
+
+```bash
+dotnet ef migrations add InitialCreate --project WarehouseManagementService
+dotnet ef database update --project WarehouseManagementService
+```
 
 ---
 
@@ -147,7 +150,7 @@ dotnet test WarehouseManagementTest
 ## 📖 Swagger API Docs
 
 Navigate to:  
-🔗 `https://localhost:5001/swagger`  
+🔗 `http://localhost:5107/swagger`  
 to view the interactive Swagger documentation.
 
 ---
@@ -161,6 +164,4 @@ to view the interactive Swagger documentation.
 
 ---
 
-## 📄 License
 
-MIT License
