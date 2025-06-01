@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using WarehouseManagementService.Domain;
+using WarehouseManagementService.Domain.Interfaces;
 using WarehouseManagementService.Domain.Mapper;
 using WarehouseManagementService.Domain.Repositories;
 using WarehouseManagementService.Domain.Services;
+using WarehouseManagementService.Infrastructure.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,12 @@ builder.Services.AddScoped<PurchaseOrdersService>();
 builder.Services.AddScoped<PurchaseOrdersRepository>();
 builder.Services.AddScoped<SalesOrdersService>();
 builder.Services.AddScoped<SalesOrdersRepository>();
+if (builder.Configuration["USE_SFTP"] == "true")
+    builder.Services.AddSingleton<IFilePollingService, SftpFilePollingService>();
+else
+    builder.Services.AddSingleton<IFilePollingService, LocalFilePollingService>();
+
+builder.Services.AddHostedService<PurchaseOrderPollingService>();
 
 var app = builder.Build();
 
