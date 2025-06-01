@@ -16,25 +16,21 @@ It follows clean architecture principles and supports file-based integration via
 - Docker-compatible for containerized deployment
 
 ## 🧱 Project Structure
-WarehouseManagementService/
+📦 Solution 'WarehouseManagementService' (2 projects)
 │
-├── Controllers/
-├── Domain/
-│ ├── Dtos/
-│ ├── Interfaces/ # Interfaces (e.g., IFilePollingService)
-│ ├── Models/
-│ ├── Services/ # Business logic services
-│ └── Utilities/
-│
-├── Infrastructure/
-│ ├── BackgroundServices/ # ⏱️ PurchaseOrderPollingService
-│ └── FileAccess/ # SFTP/Folder file handling
-│
-├── WarehouseManagementDbContext.cs
-├── Program.cs
-├── launchSettings.json # 🌱 Config for local environment
-├── Dockerfile
-└── WarehouseManagementTest/
+└── 📂 WarehouseManagementService/
+    ├── 📂 Controllers/
+    ├── 📂 Domain/
+    │   ├── 📂 Dtos/
+    │   ├── 📂 Interfaces/
+    │   ├── 📂 Mapper/
+    │   ├── 📂 Models/
+    │   ├── 📂 Repositories/
+    │   ├── 📂 Services/
+    │   └── 📂 Utilities/
+    │   └── 📂 Migrations/
+    │
+    └── 📂 WarehouseManagementTest/ (Test project)
 
 
 ## 🔧 Configuration
